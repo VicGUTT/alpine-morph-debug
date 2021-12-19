@@ -3,6 +3,8 @@
  *    - https://github.com/alpinejs/alpine/blob/8d4f1266b25a550d9bd777b8aeb632a6857e89d1/packages/morph/src/morph.js#L1
  */
 
+import createElement from './utils/createElement'
+
 let resolveStep = () => {}
 
 let logger = () => {}
@@ -18,7 +20,7 @@ function breakpoint(message) {
 export async function morph(from, toHtml, options) {
     assignOptions(options)
     
-    let toEl = createElement(toHtml)
+    let toEl = createElement(from, toHtml)
 
     // If there is no x-data on the element we're morphing,
     // let's seed it with the outer Alpine scope on the page.
@@ -66,9 +68,9 @@ function assignOptions(options = {}) {
     debug = options.debug || false
 }
 
-function createElement(html) {
-    return document.createRange().createContextualFragment(html).firstElementChild
-}
+// function createElement(html) {
+//     return document.createRange().createContextualFragment(html).firstElementChild
+// }
 
 async function patch(from, to) {
     // This is a time saver, however, it won't catch differences in nested <template> tags.
